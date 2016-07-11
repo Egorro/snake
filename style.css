@@ -1,0 +1,21 @@
+.container {
+    margin: 50px auto;
+    width: 190px;
+    border: 1px solid green;
+}
+
+.row {
+    display: flex;
+    margin: auto;
+}
+
+.block {
+    margin: 1px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid gray;
+}
+
+.gray {
+    background: gray;
+}
