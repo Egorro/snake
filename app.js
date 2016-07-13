@@ -1,19 +1,28 @@
 
 var x = 4,
-    y = 0,
-    speed = 500,
+    y = 5,
+    speed = 400,
     snakeLength = 3;
 setInterval(function() {
-    //horizontalMotion();
-    verticalMotion();
+
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode = 40) {
+            verticalMotion();
+        }
+
+        if (e.keyCode = 39) {
+            horizontalMotion();
+        }
+
+    });
 
     function horizontalMotion () {
         var row = $('.row-' + y + ' .block');
 
         moving(row, x);
-        console.log('x=' + x);
+
         x++;
-        if (x > 10) {
+        if (x > 9) {
             x = 0;
         }
     }
@@ -24,7 +33,7 @@ setInterval(function() {
 
         moving(col, y);
         console.log (y);
-        if (y < 10) {
+        if (y < 9) {
             y++;
         } else {
             y = 0;
@@ -36,4 +45,6 @@ setInterval(function() {
         el.eq(i - snakeLength).removeClass('gray');
     }
 }, speed);
+
+
 
