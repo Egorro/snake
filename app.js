@@ -2,35 +2,52 @@
 var x = 4,
     y = 5,
     speed = 400,
-    snakeLength = 3;
+    snakeLength = 3,
+    timerRight,
+    timerDown;
+
+function gameLoop () {
+    setInterval(function () {
+
+    }, speed)
+}
+
+gameLoop();
 
 document.addEventListener('keydown', function(e) {
-    if (e.keyCode = 40) {
+    console.log(e.keyCode);
+
+    switch (e.keyCode) {
+        case 40:
+    }
+
+    if (e.keyCode == 40) { // вниз
+        clearInterval(timerRight);
         verticalMotion();
     }
-    //if (e.keyCode = 39) {
-    //    horizontalMotion();
-    //}
+    if (e.keyCode == 39) { // вправо
+        console.log(true);
+        clearInterval(timerDown);
+        horizontalMotion();
+    }
 });
 
 function verticalMotion () {
     var col = $('.block-' + x);
 
-    setInterval(function() {
-        moving(col, y);
-        //console.log (y);
-        if (y < 9) {
-            y++;
-        } else {
-            y = 0;
-        }
-    }, speed);
+    moving(col, y);
+
+    if (y < 9) {
+        y++;
+    } else {
+        y = 0;
+    }
 }
 
 function horizontalMotion () {
     var row = $('.row-' + y + ' .block');
 
-    setInterval(function() {
+    timerRight =  setInterval(function() {
         moving(row, x);
         x++;
         if (x > 9) {
