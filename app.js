@@ -1,3 +1,11 @@
+"use strict";
+debugger;
+let conf = {
+    x: 4,
+    y: 5,
+    speed: 400,
+    snakeLength: 3
+};
 
 var x = 4,
     y = 5,
@@ -6,15 +14,15 @@ var x = 4,
     timerRight,
     timerDown;
 
-function gameLoop () {
+function gameLoop() {
     setInterval(function () {
 
-    }, speed)
+    }, conf.speed)
 }
 
 gameLoop();
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     console.log(e.keyCode);
 
     switch (e.keyCode) {
@@ -32,7 +40,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-function verticalMotion () {
+function verticalMotion() {
     var col = $('.block-' + x);
 
     moving(col, y);
@@ -44,10 +52,10 @@ function verticalMotion () {
     }
 }
 
-function horizontalMotion () {
-    var row = $('.row-' + y + ' .block');
+function horizontalMotion() {
+    var row = $('[data-y="' + y + '"]');
 
-    timerRight =  setInterval(function() {
+    timerRight = setInterval(function () {
         moving(row, x);
         x++;
         if (x > 9) {
@@ -56,7 +64,7 @@ function horizontalMotion () {
     }, speed);
 }
 
-function moving (el, i) {
+function moving(el, i) {
     el.eq(i).addClass('gray');
     el.eq(i - snakeLength).removeClass('gray');
 }
