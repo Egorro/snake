@@ -1,72 +1,59 @@
 "use strict";
-debugger;
-let conf = {
+
+let snake = {
     x: 4,
     y: 5,
     speed: 400,
-    snakeLength: 3
+    length: 3,
+    right: false,
+    left: false,
+    top: false,
+    bottom: true
 };
+// сделать тело змейки состоящее из отдельных блоков, которые проще окрашивать
+// в теле сделать голову, которая будет взаимодействовать с предметами.
 
-var x = 4,
-    y = 5,
-    speed = 400,
-    snakeLength = 3,
-    timerRight,
-    timerDown;
-
-function gameLoop() {
-    setInterval(function () {
-
-    }, conf.speed)
-}
+let field = {
+    row: $('[data-y="' + snake.y + '"] div'),
+    col: $('.block-' + snake.x)
+};
 
 gameLoop();
 
-document.addEventListener('keydown', function (e) {
-    console.log(e.keyCode);
-
-    switch (e.keyCode) {
-        case 40:
-    }
-
-    if (e.keyCode == 40) { // вниз
-        clearInterval(timerRight);
-        verticalMotion();
-    }
-    if (e.keyCode == 39) { // вправо
-        console.log(true);
-        clearInterval(timerDown);
-        horizontalMotion();
-    }
-});
-
-function verticalMotion() {
-    var col = $('.block-' + x);
-
-    moving(col, y);
-
-    if (y < 9) {
-        y++;
-    } else {
-        y = 0;
-    }
-}
-
-function horizontalMotion() {
-    var row = $('[data-y="' + y + '"]');
-
-    timerRight = setInterval(function () {
-        moving(row, x);
-        x++;
-        if (x > 9) {
-            x = 0;
+function gameLoop() {
+    setInterval(function () {
+        if (snake.right) {
+            moving(field.row, snake.x);
+            snake.x++;
+            if (snake.x > 9) {
+                snake.x = 0;
+            }
+        } else if (snake.bottom) {
+            moving(field.col, snake.y);
+            if (snake.y < 9) {
+                snake.y++;
+            } else {
+                snake.y = 0;
+            }
         }
-    }, speed);
+    }, snake.speed)
 }
 
 function moving(el, i) {
     el.eq(i).addClass('gray');
-    el.eq(i - snakeLength).removeClass('gray');
+    el.eq(i - snake.length).removeClass('gray');
 }
+//
+document.addEventListener('keydown', function (e) {
+    console.log(e.keyCode);
 
-
+    switch (e.keyCode) {
+        case 40:  //вниз
+            snake.bottom = true;
+            snake.right = false;
+            break;
+        case 39:  //вправо
+            snake.right = true;
+            snake.bottom = false;
+    }
+});
