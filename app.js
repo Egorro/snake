@@ -1,56 +1,74 @@
-"use strict";
+// План
+// Написать полностью рабочую версию с изменением направления движения по нажатию стрелок
+// Переписать согласно новому ECMAScript 6 с классами и т.д.
+// Добавлять новые функции: появление еды на поле, съев которую скорость игры возрастает или увеличивается длина тела
+//                          границы поля с телепортацией на противоположную сторону или смерть
+//                          смерть от попытки съесть свой хвост
+//                          табло показывающеее счет, скорость, длинну тела, кнопка меню
+//                          таблица рекордов.
 
 let snake = {
-    x: 0,
+    x: 1,
     y: 5,
-    speed: 400,
+    speed: 600,
     length: 3,
     directions: {
-        right: true,
+        right: false,
         left: false,
         top: false,
-        bottom: false
+        bottom: true
     }
 };
 // сделать тело змейки состоящее из отдельных блоков, которые проще окрашивать
 // в теле сделать голову, которая будет взаимодействовать с предметами.
 
-let snakeBody = [];
+var snakeBody = [];
 
-function constructorSnekeBody () {
+var row = $('[data-y="' + snake.y + '"] div');
+var col = $('.block-' + snake.x);
 
-}
+// console.log(col);
 
-let field = {
-    row: $('[data-y="' + snake.y + '"] div'),
-    col: $('.block-' + snake.x)
-};
-console.log(field.row);
+gameLoop(snake.x, snake.y);
 
-gameLoop();
-
-function gameLoop() {
+function gameLoop(x, y) {
     setInterval(function () {
+        console.log('x:' + x + ', y: ' + y);
+
         if (snake.directions.right) {
-            moving(field.row, snake.x);
-            snake.x++;
-            if (snake.x > snake.x.length) {
-                snake.x = 0;
+            moving(row, x);
+            x++;
+            if (x > row.length) {
+                x = 0;
             }
         } else if (snake.directions.bottom) {
-            moving(field.col, snake.y);
-            if (snake.y < 10) {
-                snake.y++;
-            } else {
-                snake.y = 1;
+            moving(col, y);
+            y++;
+            if (y > row.length) {
+                y = 0;
+            }
+        } else if (snake.directions.left) {
+            moving(row, x);
+            x--;
+            if (x = 0) {
+                x = 9;
+            }
+        } else if (snake.directions.up) {
+            moving(col, y);
+            y--;
+            if (y = 0) {
+                y = 9;
             }
         }
-        console.log('x:' + snake.x + ', y: ' + snake.y);
+        row = $('[data-y="' + y + '"] div');
+        col = $('.block-' + x);
     }, snake.speed)
 }
 
 function moving(line, i) {
+    // console.log(line, i);
     snakeBody.push(line.eq(i));
+    // console.log(snakeBody);
 
     for (var key in snakeBody) {
         snakeBody[key].addClass('gray');
