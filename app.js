@@ -7,6 +7,7 @@
 //                          смерть от попытки съесть свой хвост;
 //                          табло показывающеее счет, скорость, длинну тела, кнопка меню;
 //                          таблица рекордов.
+// в теле сделать голову, которая будет взаимодействовать с предметами.
 
 var snake = {
     x: 1,
@@ -20,8 +21,6 @@ var snake = {
         bottom: true
     }
 };
-// сделать тело змейки состоящее из отдельных блоков, которые проще окрашивать
-// в теле сделать голову, которая будет взаимодействовать с предметами.
 
 var snakeBody = [];
 var row = $('[data-y="' + snake.y + '"] div');
@@ -31,8 +30,6 @@ gameLoop(snake.x, snake.y);
 
 function gameLoop(x, y) {
     setInterval(function () {
-        console.log('x:' + x + ', y: ' + y);
-
         if (snake.directions.right) {
             x++;
             if (x > row.length - 1) {
@@ -61,14 +58,15 @@ function gameLoop(x, y) {
 
         row = $('[data-y="' + y + '"] div');
         col = $('.block-' + x);
+        foodGenerator();
     }, snake.speed)
 }
 
 function moving(line, i) {
     snakeBody.push(line.eq(i));
     // голова
-    snakeBody[snakeBody.length - 1].addClass('green');
-    snakeBody[snakeBody.length - 2].removeClass('green');
+    // snakeBody[snakeBody.length - 1].addClass('green');
+    // snakeBody[snakeBody.length - 2].removeClass('green');
 
     for (var key in snakeBody) {
         snakeBody[key].addClass('gray');
@@ -104,3 +102,21 @@ function directionsFalse () {
         snake.directions[key] = false;
     }
 }
+
+function foodGenerator() {
+    var blocks = $('.block:not(.gray)');
+    var eat = $(blocks[Math.floor(Math.random()*blocks.length + 1)]);
+
+    for (var i = 0; i < blocks.length; i++) {
+        console.log(i);
+        if (blocks[i].classList.contains('red')) {
+            console.log(blocks[i]+' содержит');
+            break;
+        } else {
+            console.log(blocks[i]+' не содержит');
+            eat.addClass('red');
+        }
+    }
+}
+
+
