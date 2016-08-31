@@ -1,13 +1,14 @@
 // План
-// Написать полностью рабочую версию с изменением направления движения по нажатию стрелок
+// Написать полностью рабочую версию с изменением направления движения по нажатию стрелок.
+// Запретить изменять направление движения на противоположное или смерть.
 // Переписать согласно новому ECMAScript 6 с классами и т.д.
-// Добавлять новые функции: появление еды на поле, съев которую скорость игры возрастает или увеличивается длина тела
-//                          границы поля с телепортацией на противоположную сторону или смерть
-//                          смерть от попытки съесть свой хвост
-//                          табло показывающеее счет, скорость, длинну тела, кнопка меню
+// Добавлять новые функции: появление еды на поле, съев которую скорость игры возрастает или увеличивается длина тела;
+//                          границы поля с телепортацией на противоположную сторону или смерть;
+//                          смерть от попытки съесть свой хвост;
+//                          табло показывающеее счет, скорость, длинну тела, кнопка меню;
 //                          таблица рекордов.
 
-let snake = {
+var snake = {
     x: 1,
     y: 5,
     speed: 600,
@@ -23,11 +24,8 @@ let snake = {
 // в теле сделать голову, которая будет взаимодействовать с предметами.
 
 var snakeBody = [];
-
 var row = $('[data-y="' + snake.y + '"] div');
 var col = $('.block-' + snake.x);
-
-// console.log(col);
 
 gameLoop(snake.x, snake.y);
 
@@ -36,39 +34,41 @@ function gameLoop(x, y) {
         console.log('x:' + x + ', y: ' + y);
 
         if (snake.directions.right) {
-            moving(row, x);
             x++;
-            if (x > row.length) {
+            if (x > row.length - 1) {
                 x = 0;
             }
+            moving(row, x);
         } else if (snake.directions.bottom) {
-            moving(col, y);
             y++;
-            if (y > row.length) {
+            if (y > row.length - 1) {
                 y = 0;
             }
+            moving(col, y);
         } else if (snake.directions.left) {
-            moving(row, x);
             x--;
-            if (x = 0) {
+            if (x < 0) {
                 x = 9;
             }
+            moving(row, x);
         } else if (snake.directions.up) {
-            moving(col, y);
             y--;
-            if (y = 0) {
+            if (y < 0) {
                 y = 9;
             }
+            moving(col, y);
         }
+
         row = $('[data-y="' + y + '"] div');
         col = $('.block-' + x);
     }, snake.speed)
 }
 
 function moving(line, i) {
-    // console.log(line, i);
     snakeBody.push(line.eq(i));
-    // console.log(snakeBody);
+    // голова
+    snakeBody[snakeBody.length - 1].addClass('green');
+    snakeBody[snakeBody.length - 2].removeClass('green');
 
     for (var key in snakeBody) {
         snakeBody[key].addClass('gray');
