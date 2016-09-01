@@ -68,6 +68,11 @@ function moving(line, i) {
     // snakeBody[snakeBody.length - 1].addClass('green');
     // snakeBody[snakeBody.length - 2].removeClass('green');
 
+    if (snakeBody[snakeBody.length - 1][0].classList.contains('eat')) {
+        snakeBody[snakeBody.length - 1][0].classList.remove('eat');
+        snake.length += 1;
+    }
+
     for (var key in snakeBody) {
         snakeBody[key].addClass('gray');
     }
@@ -106,16 +111,17 @@ function directionsFalse () {
 function foodGenerator() {
     var blocks = $('.block:not(.gray)');
     var eat = $(blocks[Math.floor(Math.random()*blocks.length + 1)]);
+    var eatFlag = false;
 
     for (var i = 0; i < blocks.length; i++) {
-        console.log(i);
-        if (blocks[i].classList.contains('red')) {
-            console.log(blocks[i]+' содержит');
+        if (blocks[i].classList.contains('eat')) {
+            eatFlag = true;
             break;
-        } else {
-            console.log(blocks[i]+' не содержит');
-            eat.addClass('red');
         }
+    }
+
+    if (!eatFlag) {
+        eat.addClass('eat');
     }
 }
 
